@@ -1,0 +1,47 @@
+@startuml
+!include <C4/C4_Container>
+
+System_Boundary(data_mart, "Витрина данных"){
+    Container(front, "Web клиент", "React", "Сайт для построение отчетов")
+    Container(gateway, "API gateway", "Kong", "Точка входа в систему")
+    Container(dwh, "DWH", "", "Хранение структурированных данных")
+    Container(data_lake, "Data lake", "", "Хранение не структурированных данных")
+    Container(batch_mode, "Batch API", "", "API для добавления данных в пакетах")
+    Container(stream_mode, "Stream API", "", "API для добавления потоковых данных")
+    Container(redis, "Redis", "", "Кэш необходимый для сохранения промежуточных данных отчета")
+    Container(backend, "BigData API", "Java", "API для формирования отчетов")
+}
+
+
+Container(keycloak, "Keycloak", "Keycloak","Единый инструмент аутентификации и авторизации")
+
+
+System_Ext(ai_service,"ИИ сервисы")
+System_Ext(inner_service,"Внутренние сервисы")
+System_Ext(fin_service,"Финтех сервисы")
+System_Ext(client_operator, "Клиентский интерфейс оператора")
+
+Person(person, "Сотрудник компании", "Взаимодействует с системой")
+
+Rel(front, gateway, "")
+Rel(gateway, backend, "")
+Rel(backend, dwh, "")
+Rel(backend, data_lake, "")
+Rel(backend, redis, "")
+Rel(batch_mode, dwh, "")
+Rel(batch_mode, data_lake, "")
+Rel(stream_mode, dwh, "")
+Rel(stream_mode, data_lake, "")
+Rel(keycloak, gateway, "")
+
+Rel(ai_service, batch_mode, "")
+Rel(inner_service, batch_mode, "")
+Rel(fin_service, batch_mode, "")
+Rel(client_operator, batch_mode, "")
+Rel(ai_service, stream_mode, "")
+Rel(inner_service, stream_mode, "")
+Rel(fin_service, stream_mode, "")
+Rel(client_operator, stream_mode, "")
+
+Rel(person, front, "")
+@enduml
