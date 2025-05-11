@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Container>
+
+
+System(client_domain, "Клиентский домен", "Данные по клиентам, не медицинские")
+System(medical_domain, "Медицинский домен", "Обезличены медицинские данные, приемы, анализы, болезни и т.д.")
+System(finance_domain, "Финансовый домен", "Платежи, транзакции и счета")
+System(personal_domain, "Домен сотрудников","Данные по сотрудникам")
+System(warehouse_domain, "Складской домен","Данные связанный с материальным обеспечением, лекарства, мед расходники и т.д.")
+
+Rel(client_domain, medical_domain, "Данные по оказанным услугам")
+Rel(medical_domain, finance_domain, "Данные по выставленным счетам")
+Rel(personal_domain, warehouse_domain, "Данные по потраченным расходникам")
+Rel(personal_domain, medical_domain, "Данные по оказанным услугам")
+Rel(medical_domain, personal_domain, "Данные по загрузке персонала(Таблица приема пациентов)")
+Rel(warehouse_domain, finance_domain, "Данные по необходимым закупкам")
